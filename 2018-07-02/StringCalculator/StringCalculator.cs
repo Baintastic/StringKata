@@ -24,14 +24,9 @@ namespace StringCalculator
                 throw new Exception("Negatives Not Allowed : "+ negatives + "");
             }
             if (numbers.Length > 1) {
-                var splitNumbers =   numbers.Split(new char[] {',','\n',';', '@', '$', '#', '*', '%', '!','/','[',']' } ,StringSplitOptions.RemoveEmptyEntries);
-                var sum = 0;
-                for (int i = 0; i < splitNumbers.Length; i++) {
-                    if (Int32.Parse(splitNumbers[i]) <= 1000) {
-                        sum += Int32.Parse(splitNumbers[i]);
-
-                    }             
-                }
+                var sum =   numbers.Split(new char[] {',','\n',';', '@', '$', '#', '*', '%', '!','/','[',']' } ,StringSplitOptions.RemoveEmptyEntries)
+                                                                                                                        .Select(n => Int32.Parse(n)) // get the "list" of integers
+                                                                                                                        .Sum();
                 return sum;
               
             }
