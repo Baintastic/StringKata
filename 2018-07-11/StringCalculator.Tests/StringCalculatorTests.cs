@@ -1,9 +1,5 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StringCalculator.Tests
 {
@@ -92,8 +88,8 @@ namespace StringCalculator.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase("negatives not allowed : -1 ", "-1")]
-        [TestCase("negatives not allowed : -1 -2 -3 -7 ", "-1,-2,-3,4,5,6,-7")]
+        [TestCase("negatives not allowed : -1", "-1")]
+        [TestCase("negatives not allowed : -1,-2,-3,-7", "-1,-2,-3,4,5,6,-7")]
         public void Add_GivenStringHavingNegativeNumbers_ShouldReturnNegativesNotAllowed(string expected, string input)
         {
             //Arrange

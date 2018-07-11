@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace StringCalculator
 {
@@ -15,35 +12,38 @@ namespace StringCalculator
             {
                 return 0;
             }
-            CheckForNegativeNumbers(input);
-            if (input.StartsWith("//"))
+            if (HasCustomDelimiter(input))
             {
                 var indexOfNewLine = input.IndexOf('\n');
                 input = input.Substring(indexOfNewLine);
             }
-            int sum = CalculateSum(input);
-            return sum;
+            var numbers = Split(input);
+            CheckForNegativeNumbers(numbers);
+            return CalculateSum(numbers);
         }
 
-        private static int CalculateSum(string input)
+        private static bool HasCustomDelimiter(string input)
         {
-            return input.Split(new char[] { ',', '\n', ';', '*', '!', '@', '#', '%', '&', '(', ')' }, StringSplitOptions.RemoveEmptyEntries).Select(part => Convert.ToInt32(part)).Where(num => num <= 1000).Sum();
+            return input.StartsWith("//");
         }
 
-        private static void CheckForNegativeNumbers(string input)
+        private static IEnumerable<int> Split(string input)
         {
-            if (input.Contains('-'))
+            return input.Split(new char[] { ',', '\n', ';', '*', '!', '@', '#', '%', '&', '(', ')' }, StringSplitOptions.RemoveEmptyEntries).Select(part => Convert.ToInt32(part));
+        }
+
+        private static void CheckForNegativeNumbers(IEnumerable<int> numbers)
+        {
+            var negatives = numbers.Where(x => x < 0);
+            if (negatives.Any())
             {
-                var negatives = "";
-                for (int i = 0; i < input.Length; i++)
-                {
-                    if (input[i].Equals('-'))
-                    {
-                        negatives += $"{input[i]}{input[i + 1]} ";
-                    }
-                }
-                throw new Exception($"negatives not allowed : {negatives}");
+                throw new Exception($"negatives not allowed : {string.Join(",", negatives)}");
             }
+        }
+
+        private static int CalculateSum(IEnumerable<int> numbers)
+        {
+            return numbers.Where(num => num <= 1000).Sum();
         }
     }
 }
