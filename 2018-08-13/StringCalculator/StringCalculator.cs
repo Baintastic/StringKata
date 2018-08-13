@@ -21,7 +21,6 @@ namespace StringCalculator
                 input = input.Substring(index);
             }
             var numbers = Split(input);
-
             CheckForNegatives(numbers);
             return CalculateSum(numbers);
         }
